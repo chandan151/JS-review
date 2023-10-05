@@ -45,3 +45,7 @@ header,footer {
 #next {
     display: none;
 }
+
+.apod:not(.apod:first-child){
+    display: none;
+}
