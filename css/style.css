@@ -46,6 +46,6 @@ header,footer {
     display: none;
 }
 
-.apod:not(.apod:first-child){
+/*.apod:not(.apod:first-child){
     display: none;
-}
+}*/
