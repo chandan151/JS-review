@@ -2,11 +2,13 @@ console.log('Hello World');
 
 const prev = document.getElementById("prev");
 const next = document.getElementById("next");
-const apods = document.getElementsByClassName("apod")[0];
+const apods = document.getElementsByClassName("apod");
+var index = 0;
 
 //console.log(apods);
 
 prev.style.background = "#4a4a4a";
+next.style.background = "#4a4a4a";
 prev.innerHTML = "&larr; Go Back";
 
 
