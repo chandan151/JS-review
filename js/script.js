@@ -1,80 +1,71 @@
-console.log('Hello World');
 
-const prev = document.getElementById("prev");
-const next = document.getElementById("next");
-let index = 0;
+const xhr = new XMLHttpRequest();
 
-const apods = ["img/Hourglass_HubblePathak_1080.jpg",
-    "img/MoValley_5_oct.jpeg", "img/WitchHead_oct_4.jpeg"];
-console.log(apods);
+const baseurl = "https://api.nasa.gov/planetary/apod";
+const query = "?api_key=9W9jhYeCfkD02oRR7rHncenWD8GOXGCkTWWd35N9&count=10";
+const url = baseurl + query;
+var apod_array;
 
-//document.getElementById("apod_group").innerHTML = `<img class="apod" src="${apods[0]}">`;
+xhr.open("GET", url);
+xhr.send(null);
 
-function apod_obj(title, source, date, img) {
-    this.title = title,
-        this.source = source,
-        this.date = date,
-        this.img = img
+xhr.onload = function() {
+    console.log("hurray, it worked!");
+    //console.log(xhr.responseText);
+    apod_array = JSON.parse(xhr.responseText);
+    console.log(apod_array);
+    createAPOD();
 }
-
-const apod_oct3 = new apod_obj("Hourglass Nebula", "NASA", "October 3, 2021", "img/Hourglass_HubblePathak_1080.jpg");
-const apod_oct4 = new apod_obj("Witch Head Nebula", "NASA", "October 4, 2021", "img/WitchHead_oct_4.jpeg");
-const apod_oct5 = new apod_obj("Missouri Valley", "NASA", "October 5, 2021", "img/MoValley_5_oct.jpeg");
-
-const apod_array = [apod_oct3, apod_oct4, apod_oct5];
-
-console.log(apod_array);
-
-
-console.log(apod_obj);
-/*console.log(apod_obj.date);
-console.log(apod_obj["date"]);
-console.log(apod_obj.title);*/
 
 function createAPOD() {
     const apod = document.createElement("div");
     apod.className = "apod";
     apod.innerHTML = "<figure>" +
-        "<img src='" + apod_array[index].img + "'>" +
-        "<figcaption>" + apod_array[index].title + "</figcaption>" + "</figure>" +
+        "<img src='" + apod_array[index].url+ "'>" +
+        "<figcaption>" + apod_array[index].copyright + "</figcaption>" + "</figure>" +
         "<p>" + apod_array[index].date + "</p>" +
         "<p>" + apod_array[index].source + "</p>";
     document.getElementById("apod_group").innerHTML = "";
     document.getElementById("apod_group").appendChild(apod);
 }
 
-createAPOD();
+const prev = document.getElementById("prev");
+const next = document.getElementById("next");
+let index = 0;
 
-prev.style.background = "#4a4a4a";
-next.style.background = "#4a4a4a";
+//prev.style.background = "#4a4a4a";
+//next.style.background = "#4a4a4a";
 prev.innerHTML = "&larr; Go Back";
 
 
 prev.addEventListener("click", goBack);
 next.addEventListener("click", goForward);
 
-
-function updateControls() {
-    if (index == apods.length - 1) {
-        prev.style.visibility = "hidden";
-    } else {
-        prev.style.visibility = "visible";
-    }
-    if (index == 0) {
-        next.style.visibility = "hidden";
-    } else {
-        next.style.visibility = "visible";
-    }
-}
-
 function goBack() {
     console.log("Going Backward");
     index++;
-    createAPOD();
     updateControls();
+    createAPOD();
 }
 
 function goForward() {
     console.log("Going Forward");
+    index--;
     updateControls();
+    createAPOD();
+}
+
+function updateControls() {
+    if (index == 0) {
+        next.style.visibility = "hidden";
+    }
+    else {
+        next.style.visibility = "visible";
+    }
+    if (index == apod_array.length - 1) {
+        prev.style.visibility = "hidden";
+    }
+    else {
+        prev.style.visibility = "visibile";
+    }
 }
